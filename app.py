@@ -34,7 +34,7 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     start_time = time.time()
-    logging.info("🚀 Memulai proses prediksi...")
+    logging.info("Memulai proses prediksi...")
 
     try:
         data = request.get_json()
@@ -44,8 +44,8 @@ def predict():
         if len(last_sequence.shape) != 2 or last_sequence.shape[1] != 4:
             return jsonify({'error': 'Format last_sequence tidak sesuai'}), 400
 
-        logging.info("✅ Last sequence shape: %s", last_sequence.shape)
-        logging.info("🗓️  Last date: %s", last_date)
+        logging.info("Last sequence shape: %s", last_sequence.shape)
+        logging.info("Last date: %s", last_date)
 
         n_past = last_sequence.shape[0]
         features = last_sequence.shape[1]
@@ -82,11 +82,11 @@ def predict():
         sim_mape = np.mean(np.abs((np.array(result[1:]) - np.array(result[:-1])) / np.array(result[:-1]))) * 100
         sim_mape = round(sim_mape, 2)
 
-        logging.info("✅ Prediksi selesai. Simulasi MAPE: %.2f%%", sim_mape)
-        logging.info("🕒 Durasi proses prediksi: %.2fs", time.time() - start_time)
+        logging.info("Prediksi selesai. Simulasi MAPE: %.2f%%", sim_mape)
+        logging.info("Durasi proses prediksi: %.2fs", time.time() - start_time)
 
         return jsonify({
-            'prediksi': result,  # ✅ Tambahkan baris ini untuk Laravel
+            'prediksi': result, 
             'tanggal': prediction_dates,
             'mape_simulasi (%)': sim_mape
         })
